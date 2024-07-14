@@ -6,10 +6,11 @@ import UserComp from "../components/UserComp";
 import { useNavigate } from "react-router-dom";
 
 const Dashboard = ({ id, setId }) => {
+  
+  const [balance, setBalance] = useState(0);
   const [filter, setFilter] = useState("");
   const [users, setUsers] = useState([]);
   const [me, setMe] = useState("default");
-  const [balance, setBalance] = useState(0);
   const navigate = useNavigate();
   useEffect(() => {
     axios

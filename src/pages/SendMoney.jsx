@@ -5,6 +5,7 @@ import Button from "../components/Button";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import Loading from "../components/Loading";
 
 
 const SendMoney = ({ id,setId }) => {
@@ -13,7 +14,10 @@ const SendMoney = ({ id,setId }) => {
   const [amount, setAmount] = useState(0);
   const toid = searchParams.get("id");
   const name = searchParams.get("name");
-  const baseURL ='https://wallet-backend-jxc7.onrender.com'
+  const [loading,setLoading] = useState(false);
+  const [label,setLabel] = useState();
+  
+  const [balance, setBalance] = useState(0);
 
   useEffect(() => {
     axios
@@ -27,6 +31,7 @@ const SendMoney = ({ id,setId }) => {
           navigate("/signin");
         } else {
           setId(res.data.userId);
+          setBalance(res.data.balance)
         }
       }, []);
   });
@@ -34,6 +39,7 @@ const SendMoney = ({ id,setId }) => {
   return (
     <div>
       <Card>
+        <div id="balance">Your Account balance is: {Math.round(balance*100)/100}</div>
         <Heading label={"Send Money"} />
         <div className="flex flex-row justify-center">
           <Avatar name={name} />
@@ -46,9 +52,12 @@ const SendMoney = ({ id,setId }) => {
             setAmount(e.target.value);
           }}
         />
+        {loading? <Loading/> : null}
+        <div>{label}</div>
         <Button
           label={"Send Money"}
           onClick={(e) => {
+            setLoading(true);
             axios.post('https://wallet-backend-jxc7.onrender.com/api/v1/account/transfer',{
               to: toid,
               amount: amount
@@ -58,7 +67,11 @@ const SendMoney = ({ id,setId }) => {
                 'userid':id
               }
             }).then((res)=>{
-              alert(res.data.message)
+              
+              setLoading(false);
+              {console.log(res.data.transfer)}
+
+              {res.data.transfer ? setLabel('Transfer Successful'): setLabel('Insufficient Balance')}
             })
           }}
         />
