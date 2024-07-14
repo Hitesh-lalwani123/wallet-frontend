@@ -47,6 +47,7 @@ const SendMoney = ({ id,setId }) => {
         </div>
         <input
           className="border-2 border-gray-700 p-2 m-2"
+          placeholder="Enter amount to be sent"
           type="number"
           onChange={(e) => {
             setAmount(e.target.value);

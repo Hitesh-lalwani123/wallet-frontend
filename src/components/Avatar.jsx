@@ -1,10 +1,13 @@
+const Avatar = ({ name }) => {
+  const colors = ["red", "green", "blue", "slate", "yellow"];
 
-const Avatar = ({name}) => {
   return (
-    <div className="rounded-full bg-green-300 px-2 ml-2 inline-block w-8 h-8 font-medium">
-        {name[0].toUpperCase()}
+    <div
+      className={`bg-neutral-400 text-black h-8 w-14 mx-2 rounded-md font-bold flex flex-row justify-center`}
+    >
+      {name[0].toUpperCase()}
     </div>
-  )
-}
+  );
+};
 
-export default Avatar
+export default Avatar;
